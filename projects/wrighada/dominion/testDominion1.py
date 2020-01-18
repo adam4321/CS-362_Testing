@@ -7,7 +7,7 @@ Created on Thurs Jan 16 2020
 
 import Dominion
 import random
-from projects.wrighada.dominion import testUtility
+import testUtility
 
 
 # Get player names
