@@ -3,6 +3,8 @@
 Created on Thurs Jan 16 2020
 
 @author: Adam Wright
+
+Test file with bug with 10 times the correct number of victory and curse cards
 """
 
 import Dominion
@@ -17,6 +19,11 @@ player_names = testUtility.getPlayerNames()
 # number of curses and victory cards
 nV = testUtility.getnV(player_names)
 nC = testUtility.getnC(player_names)
+
+
+# TEST SCENARIO BUG 2 -- MIX UP THE CARDS
+nV = testUtility.getnV(player_names) * 10
+nC = testUtility.getnC(player_names) * 10
 
 
 # Get box

@@ -4,7 +4,7 @@ Created on Thurs Jan 16 2020
 
 @author: Adam Wright
 
-Test file with bug with all of the non-coin cards mixed up and unselectable
+Initial test file without bugs
 """
 
 import Dominion
@@ -23,33 +23,6 @@ nC = testUtility.getnC(player_names)
 
 # Get box
 box = testUtility.getBoxes(nV)
-
-
-# TEST SCENARIO BUG 1 -- MIX UP THE CARDS
-box["Smithy"] = [Dominion.Woodcutter()] * 10
-box["Laboratory"] = [Dominion.Smithy()] * 10
-box["Village"] = [Dominion.Laboratory()] * 10
-box["Festival"] = [Dominion.Village()] * 10
-box["Market"] = [Dominion.Festival()] * 10
-box["Chancellor"] = [Dominion.Market()] * 10
-box["Workshop"] = [Dominion.Chancellor()] * 10
-box["Moneylender"] = [Dominion.Workshop()] * 10
-box["Chapel"] = [Dominion.Moneylender()] * 10
-box["Cellar"] = [Dominion.Chapel()] * 10
-box["Remodel"] = [Dominion.Cellar()] * 10
-box["Adventurer"] = [Dominion.Remodel()] * 10
-box["Feast"] = [Dominion.Adventurer()] * 10
-box["Mine"] = [Dominion.Feast()] * 10
-box["Library"] = [Dominion.Mine()] * 10
-box["Gardens"] = [Dominion.Library()] * 10
-box["Moat"] = [Dominion.Gardens()] * nV
-box["Council Room"] = [Dominion.Moat()] * 10
-box["Witch"] = [Dominion.Council_Room()] * 10
-box["Bureaucrat"] = [Dominion.Witch()] * 10
-box["Militia"] = [Dominion.Bureaucrat()] * 10
-box["Spy"] = [Dominion.Militia()] * 10
-box["Thief"] = [Dominion.Spy()] * 10
-box["Throne Room"] = [Dominion.Thief()] * 10
 
 
 # Get supply order
