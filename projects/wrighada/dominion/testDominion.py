@@ -8,7 +8,6 @@ Initial test file without bugs
 """
 
 import Dominion
-import random
 import testUtility
 
 
@@ -31,7 +30,6 @@ supply_order = testUtility.getSupplyOrder()
 
 # Pick 10 cards from box to be in the supply.
 boxlist = testUtility.getBoxList(box)
-random.shuffle(boxlist)
 random10 = testUtility.getRandom10(boxlist)
 supply = testUtility.getSupply(box, random10)
 

@@ -7,6 +7,7 @@ Created on Thurs Jan 16 2020
 
 import Dominion
 from collections import defaultdict
+import random
 
 
 # Player names getter
@@ -82,6 +83,7 @@ def getBoxList(box):
 
 # 10 random cards getter
 def getRandom10(boxlist):
+    random.shuffle(boxlist)
     random10 = boxlist[:10]
     return random10
 
