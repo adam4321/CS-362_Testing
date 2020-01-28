@@ -9,30 +9,15 @@ Unit test file for dominion game
 from unittest import TestCase
 import Dominion
 import testUtility
-import random
 
 
 class TestCard(TestCase):
     def setUp(self):
         # Set Up Test Utility Values
-        player_names = testUtility.getPlayerNames()
-        self.players = testUtility.getPlayers(player_names)
-        # Number of curses and victory cards
-        self.nV = testUtility.getnV(self.players)
-        self.nC = testUtility.getnC(self.players)
-        self.box = testUtility.getBoxes(self.nV)
-        self.supply_order = testUtility.getSupplyOrder()
-        self.boxlist = testUtility.getBoxList(self.box)
-        self.random10 = testUtility.getRandom10(self.boxlist)
-        self.supply = testUtility.getSupply(self.box, self.random10)
-        self.supply = testUtility.getDefaultSupply(self.supply, self.players, self.nV, self.nC)
         self.trash = []
         self.player = Dominion.Player('Annie')
 
-    # Action card init test
-    def test_init(self):
-        # Initialize Feast action card data
-        self.setUp()
+        # Initialize action card props
         self.name = "Feast"
         self.cost = 4
         self.actions = 0
@@ -42,6 +27,9 @@ class TestCard(TestCase):
 
         # Instantiate a Feast Action card
         self.Feast_card = Dominion.Feast()
+
+    def test_init(self):
+        self.setUp()
 
         # Verify that the properties are correct
         self.assertEqual(self.name, self.Feast_card.name)
@@ -53,22 +41,24 @@ class TestCard(TestCase):
 
     def test_use(self):
         self.setUp()
-        # Instantiate a Feast Action card
-        self.Feast_card = Dominion.Feast()
-        self.use_trash = []
+
+        # Only Feast card in hand
         self.player.hand.clear()
         self.player.hand.append(self.Feast_card)
 
-        self.Feast_card.use(self.player, self.use_trash)
+        # Call method
+        self.Feast_card.use(self.player, self.trash)
 
         # Verify that card can be trashed
-        self.assertEqual(self.use_trash[0], self.Feast_card)
+        self.assertEqual(self.trash[0], self.Feast_card)
+
         # Verify that card is not still in the hand
         with self.assertRaises(ValueError):
             self.assertEqual(self.player.hand.index(self.Feast_card), self.Feast_card)
 
     def test_augment(self):
         self.setUp()
+
         # Set player props to 0
         self.player.actions = 0
         self.player.buys = 0
@@ -87,3 +77,86 @@ class TestCard(TestCase):
         self.assertEqual(self.player.actions, 1)
         self.assertEqual(self.player.buys, 1)
         self.assertEqual(self.player.purse, 1)
+
+
+class TestPlayer(TestCase):
+    def setUp(self):
+        # Instantiate player
+        self.player = Dominion.Player('Annie')
+
+        # Clear the player's balance and deck
+        self.player.balance = 0
+        self.player.deck.clear()
+        self.player.hand.clear()
+        self.player.hold.clear()
+        self.player.discard.clear()
+        self.player.aside.clear()
+        self.player.hold.clear()
+
+    def test_action_balance(self):
+        self.setUp()
+
+        # Create Village action card (actions prop = 2)
+        self.player.deck = [Dominion.Village()]
+
+        # Call the method
+        test_balance = self.player.action_balance()
+
+        # Test that balance (0 - 1 + 2 = 1 * 70 = 70)
+        self.assertEqual(test_balance, 70)
+
+    def test_calcpoints(self):
+        self.setUp()
+
+        # Victory card Province points = 6 && Gardens = 0
+        self.player.deck = [Dominion.Province()] * 2 + [Dominion.Gardens()]
+
+        # Call the method
+        point_total = self.player.calcpoints()
+
+        # Test that balance = 12
+        self.assertEqual(point_total, 12)
+
+    def test_draw(self):
+        self.setUp()
+
+        # Store the state of the hand
+        local_hand = self.player.hand
+
+        # Call the method with no arguments
+        self.player.draw()
+
+        # Test default arg dest == self.hand
+        self.assertEqual(local_hand, self.player.hand)
+
+        # Call method with empty hand
+        test_discard = self.player.discard
+        self.player.deck.clear()
+        self.player.draw()
+
+        # Test second if which assigns discard to deck
+        self.assertEqual(test_discard, self.player.deck)
+
+        # Assign a new deck
+        self.player.deck = [Dominion.Province()] * 2 + [Dominion.Gardens()]
+        test_sub0 = self.player.deck[0]
+
+        # Call the method
+        test_draw = self.player.draw()
+
+        # Test the 3rd if condition
+        self.assertEqual(test_sub0, test_draw)
+
+    def test_cardsummary(self):
+        self.setUp()
+
+        
+
+
+# class TestGame(TestCase):
+#     def setUp(self):
+#
+#
+#     def test_gameOver(self):
+#         self.setUp()
+
