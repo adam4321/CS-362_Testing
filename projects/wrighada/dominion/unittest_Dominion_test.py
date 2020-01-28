@@ -150,13 +150,64 @@ class TestPlayer(TestCase):
     def test_cardsummary(self):
         self.setUp()
 
-        
+        # Set up the player deck and it's summary
+        self.player.deck = [Dominion.Province()] * 2 + [Dominion.Gardens()]
+        summary_guess = {"Province": 2, "Gardens": 1, 'VICTORY POINTS': 12}
+
+        # Call the method
+        test_summary = self.player.cardsummary()
+
+        # Test that the method returns the correct summary
+        self.assertEqual(summary_guess, test_summary)
 
 
-# class TestGame(TestCase):
-#     def setUp(self):
-#
-#
-#     def test_gameOver(self):
-#         self.setUp()
+class TestGame(TestCase):
+    def setUp(self):
+        # Get player names
+        self.player_names = testUtility.getPlayerNames()
 
+        # number of curses and victory cards
+        self.nV = testUtility.getnV(self.player_names)
+        self.nC = testUtility.getnC(self.player_names)
+
+        # Get box
+        self.box = testUtility.getBoxes(self.nV)
+
+        # Get supply order
+        self.supply_order = testUtility.getSupplyOrder()
+
+        # Pick 10 cards from box to be in the supply.
+        self.boxlist = testUtility.getBoxList(self.box)
+        self.random10 = testUtility.getRandom10(self.boxlist)
+        self.supply = testUtility.getSupply(self.box, self.random10)
+
+        # The supply always has these cards
+        self.supply = testUtility.getDefaultSupply(self.supply, self.player_names, self.nV, self.nC)
+
+        # initialize the trash
+        self.trash = []
+
+        # Construct the Player objects
+        self.players = testUtility.getPlayers(self.player_names)
+
+        # Instantiate player
+        self.player = Dominion.Player('Annie')
+
+    def test_gameOver(self):
+        self.setUp()
+
+        # Call method with province cards
+        game_state = Dominion.gameover(self.supply)
+
+        # Test the game continues by returning false
+        self.assertEqual(game_state, False)
+
+        # Clear out province cards
+        self.supply.clear()
+
+        # Call method without province cards
+        game_state = Dominion.gameover(self.supply)
+
+        # Test that the game ends by returning true
+
+        self.assertEqual(game_state, True)
