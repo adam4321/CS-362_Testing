@@ -16,10 +16,12 @@ class TestCard(TestCase):
         # Set Up Test Utility Values
         self.trash = []
         self.player = Dominion.Player('Annie')
+        self.hand = [Dominion.Woodcutter()] * 2 + [Dominion.Gardens()]
+        self.player.played = []
 
         # Initialize action card props
-        self.name = "Feast"
-        self.cost = 4
+        self.name = "Adventurer"
+        self.cost = 6
         self.actions = 0
         self.cards = 0
         self.buys = 0
@@ -27,34 +29,35 @@ class TestCard(TestCase):
 
         # Instantiate a Feast Action card
         self.Feast_card = Dominion.Feast()
+        self.Adventurer_card = Dominion.Adventurer()
 
     def test_init(self):
         self.setUp()
 
         # Verify that the properties are correct
-        self.assertEqual(self.name, self.Feast_card.name)
-        self.assertEqual(self.cost, self.Feast_card.cost)
-        self.assertEqual(self.actions, self.Feast_card.actions)
-        self.assertEqual(self.cards, self.Feast_card.cards)
-        self.assertEqual(self.buys, self.Feast_card.buys)
-        self.assertEqual(self.coins, self.Feast_card.coins)
+        self.assertEqual(self.name, self.Adventurer_card.name)
+        self.assertEqual(self.cost, self.Adventurer_card.cost)
+        self.assertEqual(self.actions, self.Adventurer_card.actions)
+        self.assertEqual(self.cards, self.Adventurer_card.cards)
+        self.assertEqual(self.buys, self.Adventurer_card.buys)
+        self.assertEqual(self.coins, self.Adventurer_card.coins)
 
     def test_use(self):
         self.setUp()
 
         # Only Feast card in hand
         self.player.hand.clear()
-        self.player.hand.append(self.Feast_card)
+        self.player.hand.append(self.Adventurer_card)
 
         # Call method
-        self.Feast_card.use(self.player, self.trash)
+        self.Adventurer_card.use(self.player, self.trash)
 
         # Verify that card can be trashed
-        self.assertEqual(self.trash[0], self.Feast_card)
+        self.assertEqual(self.player.played[0], self.Adventurer_card)
 
         # Verify that card is not still in the hand
         with self.assertRaises(ValueError):
-            self.assertEqual(self.player.hand.index(self.Feast_card), self.Feast_card)
+            self.assertEqual(self.player.hand.index(self.Adventurer_card), self.Adventurer_card)
 
     def test_augment(self):
         self.setUp()
@@ -69,6 +72,7 @@ class TestCard(TestCase):
         self.Feast_card.actions = 1
         self.Feast_card.buys = 1
         self.Feast_card.coins = 1
+        self.Feast_card.cards = 3
 
         # Call method
         self.Feast_card.augment(self.player)
@@ -196,18 +200,29 @@ class TestGame(TestCase):
     def test_gameOver(self):
         self.setUp()
 
-        # Call method with province cards
+        # Call method with all stacks full
         game_state = Dominion.gameover(self.supply)
 
         # Test the game continues by returning false
         self.assertEqual(game_state, False)
 
+        # Test that 3 empty stacks ends the game
+        self.supply["Estate"].clear()
+        self.supply["Duchy"].clear()
+        self.supply["Curse"].clear()
+
+        # Call the method with 3 empty stacks
+        game_state = Dominion.gameover(self.supply)
+
+        # Test that the game ends with 3 empty stacks
+        self.assertEqual(game_state, True)
+
         # Clear out province cards
-        self.supply.clear()
+        self.supply = testUtility.getDefaultSupply(self.supply, self.player_names, self.nV, self.nC)
+        self.supply["Province"].clear()
 
         # Call method without province cards
         game_state = Dominion.gameover(self.supply)
 
         # Test that the game ends by returning true
-
         self.assertEqual(game_state, True)
