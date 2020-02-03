@@ -27,7 +27,7 @@ class TestCard(TestCase):
         self.buys = 0
         self.coins = 0
 
-        # Instantiate a Feast Action card
+        # Instantiate Feast and Adventurer Action cards
         self.Feast_card = Dominion.Feast()
         self.Adventurer_card = Dominion.Adventurer()
 
@@ -45,7 +45,7 @@ class TestCard(TestCase):
     def test_use(self):
         self.setUp()
 
-        # Only Feast card in hand
+        # Only Adventurer card in hand
         self.player.hand.clear()
         self.player.hand.append(self.Adventurer_card)
 
@@ -125,6 +125,7 @@ class TestPlayer(TestCase):
         self.setUp()
 
         # Store the state of the hand
+        self.player.hand.clear()
         local_hand = self.player.hand
 
         # Call the method with no arguments
