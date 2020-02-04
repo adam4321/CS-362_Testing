@@ -1,6 +1,6 @@
 {
     "python.testing.pytestArgs": [
-        "projects"
+        "1-4_dominion"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
