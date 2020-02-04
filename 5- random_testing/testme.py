@@ -44,7 +44,7 @@ def testme():
             state = 8
         if c == ']' and state == 8:
             state = 9
-        if state == 9:
+        if s.index(0) == 'r' and s.index(1) == 'e' and s.index(2) == 's' and s.index(3) == 'e' and s.index(4) == 't' and state == 9:
             print("error ")
             exit(200)
 
