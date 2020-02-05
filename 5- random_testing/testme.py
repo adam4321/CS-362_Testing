@@ -3,28 +3,36 @@
 # Description:  Python re-implementation of testme.c file
 
 
+import string
 import random
 
 
 def inputChar():
-    return ' '
+    # Generate and return a random character from a-z A-Z [{( )}]
+    test_char = string.ascii_letters
+    test_char = test_char + "[{( )}]"
+    return random.choice(test_char)
 
 
 def inputString():
-    return ""
+    # Generate and return a 5 character string from a subset of a-z
+    char_set = "restabcdfghijklm"
+    test_str = ''.join(random.choice(char_set) for i in range(5))
+    return test_str
 
 
 def testme():
-    tcCount = 0
+    # Test character and test string
     s = ""
     c = ''
+    tcCount = 0
     state = 0
 
     while True:
         tcCount+=1
-        test_char = inputChar()
-        test_string = inputString()
-        print("Iteration " + tcCount + "c = " + test_char + ", " + "s = " + test_string + ", " + "state = " + state)
+        c = inputChar()
+        s = inputString()
+        print("Iteration " + str(tcCount) + " c = " + str(c) + ", " + "s = " + str(s) + ", " + "state = " + str(state))
 
         if c == '[' and state == 0:
             state = 1
@@ -44,7 +52,7 @@ def testme():
             state = 8
         if c == ']' and state == 8:
             state = 9
-        if s.index(0) == 'r' and s.index(1) == 'e' and s.index(2) == 's' and s.index(3) == 'e' and s.index(4) == 't' and state == 9:
+        if s[0] == 'r' and s[1] == 'e' and s[2] == 's' and s[3] == 'e' and s[4] == 't' and state == 9:
             print("error ")
             exit(200)
 
@@ -52,3 +60,7 @@ def testme():
 def main():
     random.seed(None)
     testme()
+
+
+if __name__ == '__main__':
+    main()
