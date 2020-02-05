@@ -1,6 +1,8 @@
 # Author:       Adam Wright
 # Date:         2-4-2020
-# Description:  Python re-implementation of testme.c file
+# Description:  Python re-implementation of testme.c file. This file generates random characters to 
+#               fulfill one test case and then a random string which will terminate the program when
+#               it equals "reset"
 
 
 import string
