@@ -18,7 +18,7 @@ def inputChar():
 
 def inputString():
     # Generate and return a 5 character string from a subset of a-z
-    char_set = "restabcdfghijklm"
+    char_set = "restabcdfghijklmn"
     test_str = ''.join(random.choice(char_set) for i in range(5))
     return test_str
 
