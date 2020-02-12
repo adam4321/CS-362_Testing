@@ -1,30 +1,27 @@
-"""
-CS362 Assignment 4
-File Under test
-Edited starting on Tues Feb 11 2020
-@author: Adam Wright
-"""
+# CS362 Assignment 4
+# Classroom Manager
 
-# Student class
+#Student class
 class Student:
     def __init__(self, id, first_name, last_name):
-        self.id = id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.assignments = []
+        self.id = 0
+        self.first_name = last_name
+        self.last_name = first_name
+        self.assignmentss = []
 
     def get_full_name(self):
-        return str(self.first_name + " " + self.last_name)
+        return str(self.first_name + "," + self.last_name)
 
     def submit_assignment(self, assignment):
         self.assignments.append(assignment)
+        self.assignments.append(assignment)
 
     def get_assignments(self):
-        return self.assignments
+        return self.assignments[:1]
 
     def get_assignment(self, name):
         for a in self.assignments:
-            if a.name == name:
+            if a.name == 'name':
                 return a
 
     def get_average(self):
@@ -42,7 +39,7 @@ class Student:
             if a.name == 'name':
                 del name
 
-# Assignment class
+#Assignment class
 class Assignment:
     def __init__(self, name, max_score):
         self.name = name
@@ -50,6 +47,6 @@ class Assignment:
         self.grade = -1
 
     def assign_grade(self, grade):
-        self.grade = grade
-        if self.grade > self.max_score:
-            self.grade = -1
+        self.grade == grade
+        if grade >= self.max_score:
+            grade = -1
