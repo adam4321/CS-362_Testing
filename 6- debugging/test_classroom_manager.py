@@ -43,10 +43,8 @@ class Test_Student(TestCase):
         # Test that assignments list is initially empty
         self.assertEqual(self.assignments, self.test_student.assignments)
 
-        # Submit the test assignment
-        self.test_student.submit_assignment(self.test_assignment)
-
         # Test that assignments list contains the submitted assignment
+        self.test_student.submit_assignment(self.test_assignment)
         self.assignments = [self.test_assignment]
         self.assertEqual(self.assignments, self.test_student.assignments)
 
@@ -57,20 +55,16 @@ class Test_Student(TestCase):
         self.test_student.submit_assignment(self.test_assignment)
         self.test_student.submit_assignment(self.test_assignment2)
 
-        # Return the current assignments
-        test_getter = self.test_student.get_assignments()
-
         # Check that the test list equals the test student's list
+        test_getter = self.test_student.get_assignments()
         self.assertEqual(self.test_student.assignments, test_getter)
 
     def test_get_assignment(self):
         self.set_up()
         self.test_student.submit_assignment(self.test_assignment)
 
-        # Return the named assignment
-        test_getter = self.test_student.get_assignment(self.test_assignment.name)
-
         # Check that the returned assignment equals the test assignment
+        test_getter = self.test_student.get_assignment(self.test_assignment.name)
         self.assertEqual(self.test_assignment, test_getter)
 
         # Check for a non-existing assignment
@@ -81,9 +75,21 @@ class Test_Student(TestCase):
         self.set_up()
 
 
-
     def test_remove_assignment(self):
         self.set_up()
+        self.test_student.submit_assignment(self.test_assignment)
+
+        # Check that the returned assignment equals the test assignment
+        test_getter = self.test_student.get_assignment(self.test_assignment.name)
+        self.assertEqual(self.test_assignment, test_getter)
+
+        # Check that the assignment was removed
+        self.test_student.remove_assignment(self.test_assignment.name)
+        test_getter = self.test_student.get_assignment(self.test_assignment.name)
+        self.assertEqual(test_getter, None)
+
+        # Test removal of non-existing assignment
+        self.test_student.remove_assignment("foo")
 
 
 class Test_Assignment(TestCase):
@@ -97,8 +103,6 @@ class Test_Assignment(TestCase):
 
     def test_init(self):
         self.set_up()
-
-        # Local instance to test against
         local_assignment = classroom_manager.Assignment("Assignment4", 100)
 
         # Test that the local assignment and the setup up assignment have the same props set
@@ -116,11 +120,9 @@ class Test_Assignment(TestCase):
         # Create a test assignment with an out of range grade
         test_assignment2 = classroom_manager.Assignment("Assignment5", 100)
         test_assignment2.assign_grade(101)
-
         self.assertEqual(test_assignment2.grade, -1)
 
         # Create a test assignment with a full grade
         test_assignment2 = classroom_manager.Assignment("Assignment5", 100)
         test_assignment2.assign_grade(100)
-
         self.assertEqual(test_assignment2.grade, 100)

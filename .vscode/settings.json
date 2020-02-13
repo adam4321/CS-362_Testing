@@ -1,6 +1,6 @@
 {
     "python.testing.pytestArgs": [
-        "1-4_dominion"
+        "6- debugging"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
