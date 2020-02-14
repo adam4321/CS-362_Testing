@@ -1,5 +1,6 @@
 # CS362 Assignment 4
 # Classroom Manager
+# Original pre-altered file
 
 #Student class
 class Student:
