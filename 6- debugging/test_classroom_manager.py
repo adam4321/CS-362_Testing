@@ -73,7 +73,17 @@ class Test_Student(TestCase):
 
     def test_get_average(self):
         self.set_up()
+        test_assignment3 = classroom_manager.Assignment("Assignment6", 100)
 
+        # Submit three test assignments and set grades for first two to 90 and 100
+        self.test_student.submit_assignment(self.test_assignment)
+        self.test_student.submit_assignment(self.test_assignment2)
+        self.test_student.submit_assignment(test_assignment3)
+        self.test_assignment.assign_grade(90)
+        self.test_assignment2.assign_grade(100)
+
+        # Test that test student's average is 95%
+        self.assertEqual(self.test_student.get_average(), 95)
 
     def test_remove_assignment(self):
         self.set_up()
