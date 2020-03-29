@@ -34,8 +34,11 @@ class Student:
             if a.grade != -1:
                 sum_grades = sum_grades + a.grade
                 total_assignments = total_assignments + a.max_score
-        average = sum_grades / total_assignments
-        return average
+        if total_assignments != 0:
+            average = sum_grades / total_assignments
+            return average
+        else:
+            return 0
 
     def remove_assignment(self, name):
         for a in self.assignments:
